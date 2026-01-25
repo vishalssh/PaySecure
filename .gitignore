@@ -19,21 +19,45 @@ build/
 target/
 out/
 
-# IDE files
+# IDE files - VS Code
 .vscode/
+*.code-workspace
+
+# IDE files - IntelliJ IDEA
 .idea/
 *.iml
+
+# IDE files - Eclipse
 .settings/
 .project
 .classpath
+
+# Temporary files
 *.swp
 *.swo
 *~
+*.tmp
+*.bak
 
 # OS files
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # Java specific
 hs_err_pid*
 replay_pid*
+
+# MySQL Connector JAR (should be downloaded separately)
+lib/*.jar
+
+# Database configuration (if contains sensitive data)
+# config/db.properties
+
+# User data / test data
+*.csv
+*.xlsx
+
+# Environment variables
+.env
+.env.local
