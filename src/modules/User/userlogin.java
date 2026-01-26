@@ -7,26 +7,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class userlogin {
-    private int userId;
-    private String username;
-    private String fullName;
-    private String email;
-    private String mobileNumber;
-    private String upiId;
-    private String accountNumber;
-    private String role;
+public class userlogin extends User {
 
-    private Scanner scanner = new Scanner(System.in);
+    private Scanner sc = new Scanner(System.in);
 
     public boolean login() {
         System.out.println("=========== User Login ===========");
 
         System.out.print("Enter Username: ");
-        String inputUsername = scanner.nextLine().trim();
+        String inputUsername = sc.nextLine().trim();
 
         System.out.print("Enter Password: ");
-        String inputPassword = scanner.nextLine().trim();
+        String inputPassword = sc.nextLine().trim();
 
         return authenticateUser(inputUsername, inputPassword);
     }
@@ -52,10 +44,10 @@ public class userlogin {
                 this.accountNumber = rs.getString("account_number");
                 this.role = rs.getString("role");
 
-                System.out.println("\n Login successful! Welcome, " + this.fullName + "!");
+                System.out.println("Login successful! Welcome, " + this.fullName);
                 return true;
             } else {
-                System.out.println("\n Invalid username or password!");
+                System.out.println("Invalid username or password!");
                 return false;
             }
         } catch (SQLException e) {
@@ -75,28 +67,9 @@ public class userlogin {
         System.out.println("Role: " + this.role);
     }
 
-    // Getters
-    public int getUserId() {
-        return userId;
+    public void checkBalance() {
+        
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public String getUpiId() {
-        return upiId;
-    }
-
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public String getRole() {
-        return role;
-    }
+    
 }
