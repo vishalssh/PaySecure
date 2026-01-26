@@ -64,7 +64,7 @@ public class paySecure {
 
     void showUserMenu() {
         while (true) {
-            System.out.println("\n===========================================");
+            System.out.println("===========================================");
             System.out.println("      PaySecure - Main Menu");
             System.out.println("===========================================");
             System.out.println("1. View Profile");
