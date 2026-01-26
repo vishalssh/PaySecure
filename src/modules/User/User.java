@@ -37,30 +37,30 @@ public class User {
 
     // Take user input
     public void takeUserInput() {
-        System.out.println("=========== User Registration ===========");
+        System.out.println("\n=========== User Registration ===========");
 
         System.out.print("Enter Username: ");
-        this.username = sc.nextLine().trim();
+        username = sc.nextLine().trim();
 
         System.out.print("Enter Password: ");
-        this.password = sc.nextLine().trim();
+        password = sc.nextLine().trim();
 
         System.out.print("Enter Full Name: ");
-        this.fullName = sc.nextLine().trim();
+        fullName = sc.nextLine().trim();
 
         System.out.print("Enter Email: ");
-        this.email = sc.nextLine().trim();
+        email = sc.nextLine().trim();
 
         System.out.print("Enter Mobile Number: ");
-        this.mobileNumber = sc.nextLine().trim();
+        mobileNumber = sc.nextLine().trim();
 
         // Auto-generate UPI ID and Account Number
-        this.upiId = generateUpiId(this.username);
-        this.accountNumber = generateAccountNumber();
-        this.role = "USER";
+        upiId = generateUpiId(username);
+        accountNumber = generateAccountNumber();
+        role = "USER";
 
-        System.out.println("UPI ID: " + this.upiId);
-        System.out.println("Account Number: " + this.accountNumber);
+        System.out.println("UPI ID: " + upiId);
+        System.out.println("Account Number: " + accountNumber);
     }
 
     // Save user to database
@@ -70,14 +70,14 @@ public class User {
         try (Connection cn = DBConnection.getConnection();
                 PreparedStatement pstmt = cn.prepareStatement(UI)) {
 
-            pstmt.setString(1, this.username);
-            pstmt.setString(2, this.password);
-            pstmt.setString(3, this.fullName);
-            pstmt.setString(4, this.email);
-            pstmt.setString(5, this.mobileNumber);
-            pstmt.setString(6, this.upiId);
-            pstmt.setString(7, this.accountNumber);
-            pstmt.setString(8, this.role);
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            pstmt.setString(3, fullName);
+            pstmt.setString(4, email);
+            pstmt.setString(5, mobileNumber);
+            pstmt.setString(6, upiId);
+            pstmt.setString(7, accountNumber);
+            pstmt.setString(8, role);
 
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -97,13 +97,13 @@ public class User {
 
     public void showUser() {
         System.out.println("=========== User Details ===========");
-        System.out.println("Username: " + this.username);
-        System.out.println("Full Name: " + this.fullName);
-        System.out.println("Email: " + this.email);
-        System.out.println("Mobile: " + this.mobileNumber);
-        System.out.println("UPI ID: " + this.upiId);
-        System.out.println("Account Number: " + this.accountNumber);
-        System.out.println("Role: " + this.role);
+        System.out.println("Username: " + username);
+        System.out.println("Full Name: " + fullName);
+        System.out.println("Email: " + email);
+        System.out.println("Mobile: " + mobileNumber);
+        System.out.println("UPI ID: " + upiId);
+        System.out.println("Account Number: " + accountNumber);
+        System.out.println("Role: " + role);
     }
 
 }

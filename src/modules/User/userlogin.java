@@ -35,16 +35,16 @@ public class userlogin extends User {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                this.userId = rs.getInt("user_id");
+                userId = rs.getInt("user_id");
                 this.username = rs.getString("username");
-                this.fullName = rs.getString("full_name");
-                this.email = rs.getString("email");
-                this.mobileNumber = rs.getString("mobile_number");
-                this.upiId = rs.getString("upi_id");
-                this.accountNumber = rs.getString("account_number");
-                this.role = rs.getString("role");
+                fullName = rs.getString("full_name");
+                email = rs.getString("email");
+                mobileNumber = rs.getString("mobile_number");
+                upiId = rs.getString("upi_id");
+                accountNumber = rs.getString("account_number");
+                role = rs.getString("role");
 
-                System.out.println("Login successful! Welcome, " + this.fullName);
+                System.out.println("Login successful! Welcome, " + fullName);
                 return true;
             } else {
                 System.out.println("Invalid username or password!");
@@ -58,13 +58,13 @@ public class userlogin extends User {
 
     public void showProfile() {
         System.out.println("=========== User Profile ===========");
-        System.out.println("Username: " + this.username);
-        System.out.println("Full Name: " + this.fullName);
-        System.out.println("Email: " + this.email);
-        System.out.println("Mobile: " + this.mobileNumber);
-        System.out.println("UPI ID: " + this.upiId);
-        System.out.println("Account Number: " + this.accountNumber);
-        System.out.println("Role: " + this.role);
+        System.out.println("Username: " + username);
+        System.out.println("Full Name: " + fullName);
+        System.out.println("Email: " + email);
+        System.out.println("Mobile: " + mobileNumber);
+        System.out.println("UPI ID: " + upiId);
+        System.out.println("Account Number: " + accountNumber);
+        System.out.println("Role: " + role);
     }
 
     public void checkBalance() {
