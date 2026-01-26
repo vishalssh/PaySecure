@@ -68,8 +68,26 @@ public class userlogin extends User {
     }
 
     public void checkBalance() {
-        
+        String query = "SELECT balance FROM users WHERE user_id = ?";
+
+        try (Connection cn = DBConnection.getConnection();
+                PreparedStatement pstmt = cn.prepareStatement(query)) {
+
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                double balance = rs.getDouble("balance");
+                System.out.println("\n=========== Balance Information ===========");
+                System.out.println("Account Number: " + accountNumber);
+                System.out.println("Current Balance: " + balance);
+                System.out.println("=========================================");
+            } else {
+                System.out.println("Unable to retrieve balance!");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error while checking balance: " + e.getMessage());
+        }
     }
 
-    
 }
