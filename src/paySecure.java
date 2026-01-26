@@ -59,6 +59,7 @@ public class paySecure {
         loggedInUser = new userlogin();
         if (loggedInUser.login()) {
             showUserMenu();
+            
         }
     }
 
@@ -90,7 +91,8 @@ public class paySecure {
                     System.out.println("Transfer Money - Coming soon!");
                     break;
                 case 3:
-                    System.out.println("Check Balance - Coming soon!");
+                    loggedInUser.checkBalance();
+                    // System.out.println("Check Balance - Coming soon!");
                     break;
                 case 4:
                     System.out.println("Transaction History - Coming soon!");
