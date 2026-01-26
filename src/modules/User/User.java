@@ -8,17 +8,17 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class User {
-    private int userId;
-    private String username;
-    private String password;
-    private String fullName;
-    private String email;
-    private String mobileNumber;
-    private String upiId;
-    private String accountNumber;
-    private String role;
+    int userId;
+    String username;
+    String password;
+    String fullName;
+    String email;
+    String mobileNumber;
+    String upiId;
+    String accountNumber;
+    String role;
 
-    private Scanner scanner = new Scanner(System.in);
+    Scanner sc = new Scanner(System.in);
 
     // Generate unique UPI ID
     private String generateUpiId(String username) {
@@ -40,25 +40,24 @@ public class User {
         System.out.println("=========== User Registration ===========");
 
         System.out.print("Enter Username: ");
-        this.username = scanner.nextLine().trim();
+        this.username = sc.nextLine().trim();
 
         System.out.print("Enter Password: ");
-        this.password = scanner.nextLine().trim();
+        this.password = sc.nextLine().trim();
 
         System.out.print("Enter Full Name: ");
-        this.fullName = scanner.nextLine().trim();
+        this.fullName = sc.nextLine().trim();
 
         System.out.print("Enter Email: ");
-        this.email = scanner.nextLine().trim();
+        this.email = sc.nextLine().trim();
 
         System.out.print("Enter Mobile Number: ");
-        this.mobileNumber = scanner.nextLine().trim();
+        this.mobileNumber = sc.nextLine().trim();
 
         // Auto-generate UPI ID and Account Number
         this.upiId = generateUpiId(this.username);
         this.accountNumber = generateAccountNumber();
         this.role = "USER";
-
 
         System.out.println("UPI ID: " + this.upiId);
         System.out.println("Account Number: " + this.accountNumber);
@@ -82,7 +81,7 @@ public class User {
 
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("\n User registered successfully!");
+                System.out.println("User registered successfully!");
                 return true;
             }
         } catch (SQLException e) {
@@ -107,20 +106,4 @@ public class User {
         System.out.println("Role: " + this.role);
     }
 
-    // Getters
-    public String getUsername() {
-        return username;
-    }
-
-    public String getUpiId() {
-        return upiId;
-    }
-
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public String getRole() {
-        return role;
-    }
 }
