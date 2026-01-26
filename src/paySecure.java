@@ -59,12 +59,13 @@ public class paySecure {
         loggedInUser = new userlogin();
         if (loggedInUser.login()) {
             showUserMenu();
+            
         }
     }
 
     void showUserMenu() {
         while (true) {
-            System.out.println("\n===========================================");
+            System.out.println("===========================================");
             System.out.println("      PaySecure - Main Menu");
             System.out.println("===========================================");
             System.out.println("1. View Profile");
@@ -90,7 +91,8 @@ public class paySecure {
                     System.out.println("Transfer Money - Coming soon!");
                     break;
                 case 3:
-                    System.out.println("Check Balance - Coming soon!");
+                    loggedInUser.checkBalance();
+                    // System.out.println("Check Balance - Coming soon!");
                     break;
                 case 4:
                     System.out.println("Transaction History - Coming soon!");
