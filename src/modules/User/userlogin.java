@@ -78,15 +78,51 @@ public class userlogin extends User {
 
             if (rs.next()) {
                 double balance = rs.getDouble("balance");
-                System.out.println("\n=========== Balance Information ===========");
+                System.out.println("=========== Balance Information ===========");
                 System.out.println("Account Number: " + accountNumber);
                 System.out.println("Current Balance: " + balance);
-                System.out.println("=========================================");
             } else {
                 System.out.println("Unable to retrieve balance!");
             }
         } catch (SQLException e) {
             System.err.println("Error while checking balance: " + e.getMessage());
+        }
+    }
+
+    public void addBalance() {
+        System.out.println("=========== Add Balance ===========");
+
+        System.out.print("Enter amount to add: ");
+        try {
+            double amount = Double.parseDouble(sc.nextLine().trim());
+
+            if (amount <= 0) {
+                System.out.println("Amount must be greater than 0!");
+                return;
+            }
+
+            String query = "UPDATE users SET balance = balance + ? WHERE user_id = ?";
+
+            try (Connection cn = DBConnection.getConnection();
+                    PreparedStatement pstmt = cn.prepareStatement(query)) {
+
+                pstmt.setDouble(1, amount);
+                pstmt.setInt(2, userId);
+
+                int rowsAffected = pstmt.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    System.out.println("Balance added successfully!");
+                    System.out.println("Amount Added: " + amount);
+
+                } else {
+                    System.out.println("Failed to add balance!");
+                }
+            } catch (SQLException e) {
+                System.err.println("Error while adding balance: " + e.getMessage());
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid amount! Please enter a valid number.");
         }
     }
 
