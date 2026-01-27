@@ -37,7 +37,7 @@ public class User {
 
     // Take user input
     public void takeUserInput() {
-        System.out.println("\n=========== User Registration ===========");
+        System.out.println("=========== User Registration ===========");
 
         System.out.print("Enter Username: ");
         username = sc.nextLine().trim();
@@ -79,8 +79,8 @@ public class User {
             pstmt.setString(7, accountNumber);
             pstmt.setString(8, role);
 
-            int rowsAffected = pstmt.executeUpdate();
-            if (rowsAffected > 0) {
+            int rowsAf = pstmt.executeUpdate();
+            if (rowsAf > 0) {
                 System.out.println("User registered successfully!");
                 return true;
             }

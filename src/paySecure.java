@@ -13,7 +13,6 @@ public class paySecure {
         app.showAuthMenu();
     }
 
-
     void showAuthMenu() {
         while (true) {
             System.out.println("===========================================");
@@ -59,7 +58,7 @@ public class paySecure {
         loggedInUser = new userlogin();
         if (loggedInUser.login()) {
             showUserMenu();
-            
+
         }
     }
 
@@ -69,10 +68,11 @@ public class paySecure {
             System.out.println("      PaySecure - Main Menu");
             System.out.println("===========================================");
             System.out.println("1. View Profile");
-            System.out.println("2. Transfer Money");
-            System.out.println("3. Check Balance");
-            System.out.println("4. Transaction History");
-            System.out.println("5. Logout");
+            System.out.println("2. Check Balance");
+            System.out.println("3. Add Balance");
+            System.out.println("4. Transfer Money");
+            System.out.println("5. Transaction History");
+            System.out.println("6. Logout");
             System.out.print("Choose an option: ");
 
             int choice = 0;
@@ -88,16 +88,17 @@ public class paySecure {
                     loggedInUser.showProfile();
                     break;
                 case 2:
-                    System.out.println("Transfer Money - Coming soon!");
+                    loggedInUser.checkBalance();
                     break;
                 case 3:
-                    loggedInUser.checkBalance();
-                    // System.out.println("Check Balance - Coming soon!");
+                    loggedInUser.addBalance();
                     break;
                 case 4:
-                    System.out.println("Transaction History - Coming soon!");
+                    System.out.println("Transfer Money - Coming soon!");
                     break;
                 case 5:
+                    System.out.println("Transaction History - Coming soon!");
+                case 6:
                     System.out.println("Logged out successfully!");
                     loggedInUser = null;
                     return;
