@@ -3,14 +3,14 @@ import java.util.Scanner;
 
 import modules.User.User;
 import modules.User.userlogin;
-// import modules.Transaction.TransferService;
-// import modules.Admin.Admin;
-// import modules.Wallet.walletMenu;
+import modules.Transaction.TransferService;
+import modules.Admin.Admin;
+import modules.Wallet.walletMenu;
 
 public class paySecure {
     Scanner scanner = new Scanner(System.in);
     userlogin loggedInUser = null;
-    // Admin loggedInAdmin = null;
+    Admin loggedInAdmin = null;
 
     public static void main(String[] args) throws Exception {
         System.out.println("+++++++++++++++ Project PaySecure ++++++++++++++++");
@@ -44,9 +44,9 @@ public class paySecure {
                 case 2:
                     loginUser();
                     break;
-                // case 3:
-                //     loginAdmin();
-                //     break;
+                case 3:
+                    loginAdmin();
+                    break;
                 case 4:
                     System.out.println("Thank you for using PaySecure. Goodbye!");
                     System.exit(0);
@@ -70,26 +70,26 @@ public class paySecure {
         }
     }
 
-    // public void loginAdmin() throws SQLException {
-    //     loggedInAdmin = new Admin();
-    //     if (loggedInAdmin.login()) {
-    //         showAdminMenu();
-    //     }
-    // }
-
-    public void wallet() {
-        // walletMenu.showWalletMenu(loggedInUser.userId);
+    public void loginAdmin() throws SQLException {
+        loggedInAdmin = new Admin();
+        if (loggedInAdmin.login()) {
+            showAdminMenu();
+        }
     }
 
-    // public void transferMoney() throws SQLException {
-    //     TransferService transferService = new TransferService();
-    //     transferService.transferMoney(loggedInUser.userId);
-    // }
+    public void wallet() {
+        walletMenu.showWalletMenu(loggedInUser.userId);
+    }
 
-    // public void showHistory() throws SQLException {
-    //     TransferService transferService = new TransferService();
-    //     transferService.showHistory(loggedInUser.userId);
-    // }
+    public void transferMoney() throws SQLException {
+        TransferService tf = new TransferService();
+        tf.transferMoney(loggedInUser.userId);
+    }
+
+    public void showHistory() throws SQLException {
+        TransferService th = new TransferService();
+        th.showHistory(loggedInUser.userId);
+    }
 
     public void showUserMenu() throws SQLException {
         while (true) {
@@ -126,12 +126,12 @@ public class paySecure {
                 case 4:
                     wallet();
                     break;
-                // case 5:
-                //     transferMoney();
-                //     break;
-                // case 6:
-                //     showHistory();
-                //     break;
+                case 5:
+                    transferMoney();
+                    break;
+                case 6:
+                    showHistory();
+                    break;
                 case 7:
                     System.out.println("Logged out successfully!");
                     return;
@@ -141,41 +141,41 @@ public class paySecure {
         }
     }
 
-    // public void showAdminMenu() throws SQLException {
-    //     while (true) {
-    //         System.out.println("===========================================");
-    //         System.out.println("      PaySecure - Admin Menu");
-    //         System.out.println("===========================================");
-    //         System.out.println("1. View Users");
-    //         System.out.println("2. Transaction History");
-    //         System.out.println("3. Remove User");
-    //         System.out.println("4. Logout");
-    //         System.out.print("Choose an option: ");
+    public void showAdminMenu() throws SQLException {
+        while (true) {
+            System.out.println("===========================================");
+            System.out.println("      PaySecure - Admin Menu");
+            System.out.println("===========================================");
+            System.out.println("1. View Users");
+            System.out.println("2. Transaction History");
+            System.out.println("3. Remove User");
+            System.out.println("4. Logout");
+            System.out.print("Choose an option: ");
 
-    //         int choice = 0;
-    //         try {
-    //             choice = Integer.parseInt(scanner.nextLine().trim());
-    //         } catch (NumberFormatException e) {
-    //             System.out.println("Invalid input! Please enter a number.");
-    //             continue;
-    //         }
+            int choice = 0;
+            try {
+                choice = Integer.parseInt(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter a number.");
+                continue;
+            }
 
-    //         switch (choice) {
-    //             case 1:
-    //                 loggedInAdmin.viewUsers();
-    //                 break;
-    //             case 2:
-    //                 loggedInAdmin.viewAllTransactions();
-    //                 break;
-    //             case 3:
-    //                 loggedInAdmin.removeUser();
-    //                 break;
-    //             case 4:
-    //                 System.out.println("Admin logged out successfully!");
-    //                 return;
-    //             default:
-    //                 System.out.println("Invalid option! Please try again.");
-    //         }
-    //     }
-    // }
+            switch (choice) {
+                case 1:
+                    loggedInAdmin.viewUsers();
+                    break;
+                case 2:
+                    loggedInAdmin.viewAllTransactions();
+                    break;
+                case 3:
+                    loggedInAdmin.removeUser();
+                    break;
+                case 4:
+                    System.out.println("Admin logged out successfully!");
+                    return;
+                default:
+                    System.out.println("Invalid option! Please try again.");
+            }
+        }
+    }
 }
