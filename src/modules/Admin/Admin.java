@@ -9,7 +9,7 @@ public class Admin {
 
     private final Scanner sc = new Scanner(System.in);
 
-    // ✅ Admin Login
+    
     public boolean login() {
         System.out.println("=========== Admin Login ==============");
         System.out.print("Enter Username: ");
@@ -42,7 +42,7 @@ public class Admin {
         return false;
     }
 
-    // ✅ View All Users
+    
     public void viewUsers() {
         System.out.println("=========== All Users ===========");
         String query = "SELECT user_id, full_name, role, balance FROM users WHERE role='USER'";
@@ -70,7 +70,7 @@ public class Admin {
         }
     }
 
-    // ✅ View All Transactions
+
     public void viewAllTransactions() {
         System.out.println("============= Transaction History ===========");
 
@@ -107,7 +107,7 @@ public class Admin {
         }
     }
 
-    // ✅ Remove User
+    
     public void removeUser() {
         System.out.println("=========== Remove User ==============");
         System.out.print("Enter Username: ");
@@ -133,7 +133,7 @@ public class Admin {
         }
     }
 
-    // ✅ Admin Menu Main Method
+    
     public static void main(String[] args) {
         Admin admin = new Admin();
         Scanner sc = new Scanner(System.in);
@@ -149,7 +149,7 @@ public class Admin {
 
                 int choice = sc.nextInt();
 
-                // 🔹 Old-style switch for compatibility
+            
                 switch (choice) {
                     case 1:
                         admin.viewUsers();
@@ -172,3 +172,4 @@ public class Admin {
         }
     }
 }
+
