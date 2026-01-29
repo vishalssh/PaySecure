@@ -20,12 +20,22 @@ public class User {
 
     Scanner sc = new Scanner(System.in);
 
-    // Generate unique UPI ID
+    private boolean isValidEmail(String email) {
+        return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+    }
+
+    private boolean isValidMobile(String mobile) {
+        return mobile.matches("\\d{10}");
+    }
+
+    private boolean isValidName(String name) {
+        return name.matches("[A-Za-z ]+");
+    }
+
     private String generateUpiId(String username) {
         return username.toLowerCase() + "@paysecure";
     }
 
-    // Generate unique Account Number (12 digits)
     private String generateAccountNumber() {
         Random random = new Random();
         StringBuilder sb = new StringBuilder();
@@ -35,26 +45,34 @@ public class User {
         return sb.toString();
     }
 
-    // Take user input
     public void takeUserInput() {
         System.out.println("=========== User Registration ===========");
 
-        System.out.print("Enter Username: ");
-        username = sc.nextLine().trim();
+        do {
+            System.out.print("Enter Username (min 4 chars): ");
+            username = sc.nextLine().trim();
+        } while (username.length() < 4);
 
-        System.out.print("Enter Password: ");
-        password = sc.nextLine().trim();
+        do {
+            System.out.print("Enter Password (min 6 chars): ");
+            password = sc.nextLine().trim();
+        } while (password.length() < 6);
 
-        System.out.print("Enter Full Name: ");
-        fullName = sc.nextLine().trim();
+        do {
+            System.out.print("Enter Full Name: ");
+            fullName = sc.nextLine().trim();
+        } while (!isValidName(fullName));
 
-        System.out.print("Enter Email: ");
-        email = sc.nextLine().trim();
+        do {
+            System.out.print("Enter Email: ");
+            email = sc.nextLine().trim();
+        } while (!isValidEmail(email));
 
-        System.out.print("Enter Mobile Number: ");
-        mobileNumber = sc.nextLine().trim();
+        do {
+            System.out.print("Enter Mobile Number (10 digits): ");
+            mobileNumber = sc.nextLine().trim();
+        } while (!isValidMobile(mobileNumber));
 
-        // Auto-generate UPI ID and Account Number
         upiId = generateUpiId(username);
         accountNumber = generateAccountNumber();
         role = "USER";

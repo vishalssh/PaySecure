@@ -65,9 +65,9 @@ public class Admin {
         PreparedStatement pstmt = cn.prepareStatement(query);
         ResultSet rs = pstmt.executeQuery();
 
-        boolean Transfer = false;
+        int Transfer = 0;
         while (rs.next()) {
-            Transfer = true;
+            Transfer = 1;
             System.out.println("-------------------------------------------");
             System.out.println("Transaction ID: " + rs.getInt("transaction_id"));
             System.out.println("From: " + rs.getString("sender_name"));
@@ -76,7 +76,7 @@ public class Admin {
             System.out.println("Date: " + rs.getString("created_at"));
         }
 
-        if (!Transfer) {
+        if (Transfer > 0) {
             System.out.println("No transactions found!");
         }
     }
@@ -93,7 +93,6 @@ public class Admin {
         }
 
         Connection cn = DBConnection.getConnection();
-
         String deleteUser = "delete from users where user_id = ?";
         PreparedStatement userStmt = cn.prepareStatement(deleteUser);
         userStmt.setInt(1, userId);
@@ -107,7 +106,7 @@ public class Admin {
     }
 
     private int findUser(String username) throws SQLException {
-        String query = "SELECT user_id FROM users WHERE username = ? AND role <> 'ADMIN'";
+        String query = "select user_id from users where username = ? AND role = 'USER'";
         Connection cn = DBConnection.getConnection();
         PreparedStatement pstmt = cn.prepareStatement(query);
         pstmt.setString(1, username);
