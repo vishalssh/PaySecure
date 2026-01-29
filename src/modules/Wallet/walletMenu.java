@@ -18,18 +18,47 @@ public class walletMenu {
             System.out.println("3. Exit Wallet");
             System.out.print("Enter choice: ");
 
+            // Menu validation
+            if (!sc.hasNextInt()) {
+                System.out.println("Invalid choice! Enter numbers only.");
+                sc.next(); // clear invalid input
+                continue;
+            }
+
             int choice = sc.nextInt();
 
             switch (choice) {
+
                 case 1:
-                    System.out.print("Enter amount: ");
-                    double amount = sc.nextDouble();
+                    double amount = 0;
+
+                    // Amount validation loop
+                    while (true) {
+                        System.out.print("Enter amount to add: ");
+
+                        if (!sc.hasNextDouble()) {
+                            System.out.println("Invalid input! Enter numeric amount.");
+                            sc.next();
+                            continue;
+                        }
+
+                        amount = sc.nextDouble();
+
+                        if (amount <= 0) {
+                            System.out.println("Amount must be greater than 0.");
+                        } else if (amount > 100000) {
+                            System.out.println("Maximum limit is ₹1,00,000.");
+                        } else {
+                            break; // valid amount
+                        }
+                    }
+
                     walletDAO.addMoney(userId, amount);
                     break;
 
                 case 2:
                     double balance = walletDAO.getBalance(userId);
-                    System.out.println("Current Balance: " + balance);
+                    System.out.printf("Current Balance: ₹%.2f\n", balance);
                     break;
 
                 case 3:
@@ -37,9 +66,8 @@ public class walletMenu {
                     return;
 
                 default:
-                    System.out.println("Invalid choice!");
+                    System.out.println("Invalid choice! Please select 1–3.");
             }
         }
     }
 }
-
