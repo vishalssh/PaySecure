@@ -1,175 +1,120 @@
-package Admin;
+package modules.Admin;
+
+import util.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Admin {
-
     private final Scanner sc = new Scanner(System.in);
 
-    
-    public boolean login() {
+    public boolean login() throws SQLException {
         System.out.println("=========== Admin Login ==============");
         System.out.print("Enter Username: ");
-        String username = sc.next();
-
+        String username = sc.next().trim();
         System.out.print("Enter Password: ");
-        String password = sc.next();
+        String password = sc.next().trim();
 
-        String query = "SELECT user_id FROM users WHERE username=? AND password=? AND role='ADMIN'";
+        String query = "SELECT user_id FROM users WHERE username = ? AND password = ? AND role = 'ADMIN'";
+        Connection cn = DBConnection.getConnection();
+        PreparedStatement pstmt = cn.prepareStatement(query);
+        pstmt.setString(1, username);
+        pstmt.setString(2, password);
 
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(query)) {
-
-            ps.setString(1, username);
-            ps.setString(2, password);
-
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                System.out.println("Admin Login Successful!");
-                return true;
-            }
-
-        } catch (Exception e) {
-            System.out.println("Admin Login Error!");
-            e.printStackTrace();
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            System.out.println("Admin login successful!");
+            return true;
         }
 
-        System.out.println("Invalid Credentials!");
+        System.out.println("Invalid admin credentials!");
         return false;
     }
 
-    
-    public void viewUsers() {
+    public void viewUsers() throws SQLException {
         System.out.println("=========== All Users ===========");
-        String query = "SELECT user_id, full_name, role, balance FROM users WHERE role='USER'";
 
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(query);
-             ResultSet rs = ps.executeQuery()) {
+        String query = "select user_id, full_name, role, balance from users where role = 'USER' order by user_id";
+        Connection cn = DBConnection.getConnection();
+        PreparedStatement pstmt = cn.prepareStatement(query);
+        ResultSet rs = pstmt.executeQuery();
 
-            boolean found = false;
-            while (rs.next()) {
-                found = true;
-                System.out.println("--------------------------------");
-                System.out.println("User ID : " + rs.getInt("user_id"));
-                System.out.println("Name    : " + rs.getString("full_name"));
-                System.out.println("Balance : " + rs.getDouble("balance"));
-            }
-
-            if (!found) {
-                System.out.println("No Users Found!");
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error in View Users!");
-            e.printStackTrace();
+        while (rs.next()) {
+            System.out.println("-------------------------------------------");
+            System.out.println("User ID: " + rs.getInt("user_id"));
+            System.out.println("Name: " + rs.getString("full_name"));
+            System.out.println("Role: " + rs.getString("role"));
+            System.out.println("Balance: " + rs.getString("balance"));
         }
     }
 
-
-    public void viewAllTransactions() {
+    public void viewAllTransactions() throws SQLException {
         System.out.println("============= Transaction History ===========");
 
-        String query =
-                "SELECT t.transaction_id, t.amount, t.created_at, " +
-                        "sender.username AS sender_name, receiver.username AS receiver_name " +
-                        "FROM transactions t " +
-                        "JOIN users sender ON t.sender_id = sender.user_id " +
-                        "JOIN users receiver ON t.receiver_id = receiver.user_id " +
-                        "ORDER BY t.created_at DESC";
+        String query = "SELECT t.transaction_id, t.amount, t.created_at, " +
+                "sender.username AS sender_name, receiver.username AS receiver_name " +
+                "FROM transactions t " +
+                "JOIN users sender ON t.sender_id = sender.user_id " +
+                "JOIN users receiver ON t.receiver_id = receiver.user_id " +
+                "ORDER BY t.created_at DESC LIMIT 20";
 
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(query);
-             ResultSet rs = ps.executeQuery()) {
+        Connection cn = DBConnection.getConnection();
+        PreparedStatement pstmt = cn.prepareStatement(query);
+        ResultSet rs = pstmt.executeQuery();
 
-            boolean found = false;
-            while (rs.next()) {
-                found = true;
-                System.out.println("--------------------------------");
-                System.out.println("Transaction ID: " + rs.getInt("transaction_id"));
-                System.out.println("From: " + rs.getString("sender_name"));
-                System.out.println("To: " + rs.getString("receiver_name"));
-                System.out.println("Amount: " + rs.getDouble("amount"));
-                System.out.println("Date: " + rs.getString("created_at"));
-            }
+        int Transfer = 0;
+        while (rs.next()) {
+            Transfer = 1;
+            System.out.println("-------------------------------------------");
+            System.out.println("Transaction ID: " + rs.getInt("transaction_id"));
+            System.out.println("From: " + rs.getString("sender_name"));
+            System.out.println("To: " + rs.getString("receiver_name"));
+            System.out.println("Amount: " + rs.getDouble("amount"));
+            System.out.println("Date: " + rs.getString("created_at"));
+        }
 
-            if (!found) {
-                System.out.println("No Transactions Found!");
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error in Transactions!");
-            e.printStackTrace();
+        if (Transfer > 0) {
+            System.out.println("No transactions found!");
         }
     }
 
-    
-    public void removeUser() {
+    public void removeUser() throws SQLException {
         System.out.println("=========== Remove User ==============");
         System.out.print("Enter Username: ");
-        String username = sc.next();
+        String username = sc.next().trim();
 
-        String query = "DELETE FROM users WHERE username=? AND role='USER'";
+        int userId = findUser(username);
+        if (userId == -1) {
+            System.out.println("User not found!");
+            return;
+        }
 
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(query)) {
+        Connection cn = DBConnection.getConnection();
+        String deleteUser = "delete from users where user_id = ?";
+        PreparedStatement userStmt = cn.prepareStatement(deleteUser);
+        userStmt.setInt(1, userId);
+        int rows = userStmt.executeUpdate();
 
-            ps.setString(1, username);
-
-            int rows = ps.executeUpdate();
-            if (rows > 0) {
-                System.out.println("User Removed Successfully");
-            } else {
-                System.out.println("User Not Found!");
-            }
-
-        } catch (Exception e) {
-            System.out.println("Remove User Error");
-            e.printStackTrace();
+        if (rows > 0) {
+            System.out.println("User removed successfully: " + username);
+        } else {
+            System.out.println("Failed to remove user!");
         }
     }
 
-    
-    public static void main(String[] args) {
-        Admin admin = new Admin();
-        Scanner sc = new Scanner(System.in);
+    private int findUser(String username) throws SQLException {
+        String query = "select user_id from users where username = ? AND role = 'USER'";
+        Connection cn = DBConnection.getConnection();
+        PreparedStatement pstmt = cn.prepareStatement(query);
+        pstmt.setString(1, username);
 
-        if (admin.login()) {
-            while (true) {
-                System.out.println("\n--- Admin Menu ---");
-                System.out.println("1. View All Users");
-                System.out.println("2. View All Transactions");
-                System.out.println("3. Remove User");
-                System.out.println("4. Exit");
-                System.out.print("Enter choice: ");
-
-                int choice = sc.nextInt();
-
-            
-                switch (choice) {
-                    case 1:
-                        admin.viewUsers();
-                        break;
-                    case 2:
-                        admin.viewAllTransactions();
-                        break;
-                    case 3:
-                        admin.removeUser();
-                        break;
-                    case 4:
-                        System.out.println("Exiting");
-                        return;
-                    default:
-                        System.out.println("Invalid choice");
-                }
-            }
-        } else {
-            System.out.println("Exiting...");
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("user_id");
         }
+        return -1;
     }
 }
-
