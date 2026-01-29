@@ -9,49 +9,44 @@ import java.util.Scanner;
 
 public class userlogin extends User {
 
-    private Scanner sc = new Scanner(System.in);
+    Scanner sc = new Scanner(System.in);
 
-    public boolean login() {
+    public boolean login() throws SQLException {
         System.out.println("=========== User Login ===========");
 
         System.out.print("Enter Username: ");
-        String inputUsername = sc.nextLine().trim();
+        String inputuser = sc.next().trim();
 
         System.out.print("Enter Password: ");
-        String inputPassword = sc.nextLine().trim();
+        String inputpass = sc.next().trim();
 
-        return authenticateUser(inputUsername, inputPassword);
+        return authenticateUser(inputuser, inputpass);
     }
 
-    private boolean authenticateUser(String username, String password) {
-        String query = "SELECT user_id, username, full_name, email, mobile_number, upi_id, account_number, role FROM users WHERE username = ? AND password = ?";
+    public boolean authenticateUser(String username, String password) throws SQLException {
 
-        try (Connection cn = DBConnection.getConnection();
-                PreparedStatement pstmt = cn.prepareStatement(query)) {
+        String query = "select user_id, username, full_name, email, mobile_number, upi_id, account_number, role FROM users where username = ? AND password = ?";
+        Connection cn = DBConnection.getConnection();
+        PreparedStatement pstmt = cn.prepareStatement(query);
+        pstmt.setString(1, username);
+        pstmt.setString(2, password);
 
-            pstmt.setString(1, username);
-            pstmt.setString(2, password);
+        ResultSet rs = pstmt.executeQuery();
 
-            ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            userId = rs.getInt("user_id");
+            this.username = rs.getString("username");
+            fullName = rs.getString("full_name");
+            email = rs.getString("email");
+            mobileNumber = rs.getString("mobile_number");
+            upiId = rs.getString("upi_id");
+            accountNumber = rs.getString("account_number");
+            role = rs.getString("role");
 
-            if (rs.next()) {
-                userId = rs.getInt("user_id");
-                this.username = rs.getString("username");
-                fullName = rs.getString("full_name");
-                email = rs.getString("email");
-                mobileNumber = rs.getString("mobile_number");
-                upiId = rs.getString("upi_id");
-                accountNumber = rs.getString("account_number");
-                role = rs.getString("role");
-
-                System.out.println("Login successful! Welcome, " + fullName);
-                return true;
-            } else {
-                System.out.println("Invalid username or password!");
-                return false;
-            }
-        } catch (SQLException e) {
-            System.err.println("Error during login: " + e.getMessage());
+            System.out.println("Login successful! Welcome, " + fullName);
+            return true;
+        } else {
+            System.out.println("Invalid username or password!");
             return false;
         }
     }
@@ -67,29 +62,26 @@ public class userlogin extends User {
         System.out.println("Role: " + role);
     }
 
-    public void checkBalance() {
+    public void checkBalance() throws SQLException {
         String query = "SELECT balance FROM users WHERE user_id = ?";
+        Connection cn = DBConnection.getConnection();
+        PreparedStatement pstmt = cn.prepareStatement(query);
 
-        try (Connection cn = DBConnection.getConnection();
-                PreparedStatement pstmt = cn.prepareStatement(query)) {
+        pstmt.setInt(1, userId);
+        ResultSet rs = pstmt.executeQuery();
 
-            pstmt.setInt(1, userId);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                double balance = rs.getDouble("balance");
-                System.out.println("=========== Balance Information ===========");
-                System.out.println("Account Number: " + accountNumber);
-                System.out.println("Current Balance: " + balance);
-            } else {
-                System.out.println("Unable to retrieve balance!");
-            }
-        } catch (SQLException e) {
-            System.err.println("Error while checking balance: " + e.getMessage());
+        if (rs.next()) {
+            double balance = rs.getDouble("balance");
+            System.out.println("=========== Balance Information ===========");
+            System.out.println("Account Number: " + accountNumber);
+            System.out.println("Current Balance: " + balance);
+        } else {
+            System.out.println("Unable to retrieve balance!");
         }
+
     }
 
-    public void addBalance() {
+    public void addBalance() throws SQLException {
         System.out.println("=========== Add Balance ===========");
 
         System.out.print("Enter amount to add: ");
@@ -101,25 +93,17 @@ public class userlogin extends User {
                 return;
             }
 
-            String query = "UPDATE users SET balance = balance + ? WHERE user_id = ?";
+            String query = "UPDATE users set balance = balance + ? where user_id = ?";
+            Connection cn = DBConnection.getConnection();
+            PreparedStatement pstmt = cn.prepareStatement(query);
+            pstmt.setDouble(1, amount);
+            pstmt.setInt(2, userId);
 
-            try (Connection cn = DBConnection.getConnection();
-                    PreparedStatement pstmt = cn.prepareStatement(query)) {
+            int rowsAf = pstmt.executeUpdate();
 
-                pstmt.setDouble(1, amount);
-                pstmt.setInt(2, userId);
-
-                int rowsAffected = pstmt.executeUpdate();
-
-                if (rowsAffected > 0) {
-                    System.out.println("Balance added successfully!");
-                    System.out.println("Amount Added: " + amount);
-
-                } else {
-                    System.out.println("Failed to add balance!");
-                }
-            } catch (SQLException e) {
-                System.err.println("Error while adding balance: " + e.getMessage());
+            if (rowsAf > 0) {
+                System.out.println("Balance added successfully!");
+                System.out.println("Amount Added: " + amount);
             }
         } catch (NumberFormatException e) {
             System.out.println("Invalid amount! Please enter a valid number.");

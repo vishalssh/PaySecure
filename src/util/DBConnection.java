@@ -9,34 +9,22 @@ public class DBConnection {
     private static final String USER = "root";
     private static final String PASSWORD = "root";
 
-    private static Connection connection = null;
+    public static Connection getConnection() {
+        Connection cn = null;
 
-    // Static block to load driver once
-    static {
         try {
+            // Load MySQL Driver
             Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Create connection
+            cn = DriverManager.getConnection(URL, USER, PASSWORD);
+
         } catch (ClassNotFoundException e) {
-            System.err.println("JDBC Driver not found!");
-            e.printStackTrace();
+            System.out.println("MySQL Driver not found");
+        } catch (SQLException e) {
+            System.out.println("Database connection failed");
         }
-    }
 
-    public static Connection getConnection() throws SQLException {
-        if (connection == null || connection.isClosed()) {
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
-        }
-        return connection;
-    }
-
-
-    public static void closeConnection() {
-        if (connection != null) {
-            try {
-                connection.close();
-                connection = null;
-            } catch (SQLException e) {
-                System.err.println("Error closing connection: " + e.getMessage());
-            }
-        }
+        return cn;
     }
 }
