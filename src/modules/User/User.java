@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class User {
-    int userId;
+    public int userId;
     String username;
     String password;
     String fullName;
@@ -64,12 +64,11 @@ public class User {
     }
 
     // Save user to database
-    public boolean saveUser() {
-        String UI = "INSERT INTO users (username, password, full_name, email, mobile_number, upi_id, account_number, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-        try (Connection cn = DBConnection.getConnection();
-                PreparedStatement pstmt = cn.prepareStatement(UI)) {
-
+    public void saveUser() throws SQLException {
+        String UI = "insert into users (username, password, full_name, email, mobile_number, upi_id, account_number, role) values (?, ?, ?, ?, ?, ?, ?, ?)";
+        Connection cn = DBConnection.getConnection();
+        PreparedStatement pstmt = cn.prepareStatement(UI);
+        try {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             pstmt.setString(3, fullName);
@@ -82,15 +81,13 @@ public class User {
             int rowsAf = pstmt.executeUpdate();
             if (rowsAf > 0) {
                 System.out.println("User registered successfully!");
-                return true;
             }
         } catch (SQLException e) {
             System.err.println("Error saving user: " + e.getMessage());
         }
-        return false;
     }
 
-    public void registerUser() {
+    public void registerUser() throws SQLException {
         takeUserInput();
         saveUser();
     }
