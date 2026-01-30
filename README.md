@@ -34,9 +34,17 @@ A Java-based console application for managing digital wallets, money transfers, 
    ```
 
 2. Compile and run:
+   
+   **Linux/Mac:**
    ```bash
    javac -cp .:mysql-connector-java.jar src/paySecure.java
    java -cp .:mysql-connector-java.jar paySecure
+   ```
+   
+   **Windows:**
+   ```cmd
+   javac -cp .;mysql-connector-java.jar src/paySecure.java
+   java -cp .;mysql-connector-java.jar paySecure
    ```
 
 ## Project Structure

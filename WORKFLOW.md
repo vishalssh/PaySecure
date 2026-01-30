@@ -67,9 +67,9 @@ Stores all user information including credentials and balances.
 |--------|------|-------------|
 | user_id | INT (PK, AUTO_INCREMENT) | Unique user identifier |
 | username | VARCHAR(50) UNIQUE | Username for login |
-| password | VARCHAR(255) | User password (plain text) |
+| password | VARCHAR(255) | User password ⚠️ **Currently stored in plain text - see Security Considerations** |
 | full_name | VARCHAR(100) | User's full name |
-| email | VARCHAR(100) | Email address |
+| email | VARCHAR(100) | Email address (validated but not unique) |
 | mobile_number | VARCHAR(15) UNIQUE | 10-digit mobile number |
 | upi_id | VARCHAR(50) UNIQUE | Auto-generated UPI ID (username@paysecure) |
 | account_number | VARCHAR(20) UNIQUE | Auto-generated 12-digit account number |
@@ -84,7 +84,7 @@ Stores separate wallet balance for each user.
 |--------|------|-------------|
 | wallet_id | INT (PK, AUTO_INCREMENT) | Unique wallet identifier |
 | user_id | INT UNIQUE (FK) | Reference to users table |
-| balance | DECIMAL(10,2) | Wallet balance |
+| balance | DECIMAL(10,2) | Wallet balance (max: ₹9,999,999.99) |
 
 #### 3. `transactions` Table
 Records all money transfers between users.
@@ -408,7 +408,7 @@ END
 
 ⚠️ **Current Implementation Notes:**
 1. Passwords stored in plain text (not hashed)
-2. No SQL injection protection (vulnerable PreparedStatements usage)
+2. While PreparedStatements are used, additional validation is needed to prevent all SQL injection vectors
 3. No transaction rollback mechanism for failed transfers
 4. Database credentials hardcoded in source
 
@@ -436,6 +436,8 @@ mysql -u root -p < src/database/paysecure.sql
 ```
 
 ### Running the Application
+
+**On Linux/Mac:**
 ```bash
 # Compile
 javac -cp .:mysql-connector-java.jar src/paySecure.java
@@ -443,6 +445,17 @@ javac -cp .:mysql-connector-java.jar src/paySecure.java
 # Run
 java -cp .:mysql-connector-java.jar paySecure
 ```
+
+**On Windows:**
+```cmd
+# Compile
+javac -cp .;mysql-connector-java.jar src/paySecure.java
+
+# Run
+java -cp .;mysql-connector-java.jar paySecure
+```
+
+**Note:** Use `:` as classpath separator on Unix/Linux/Mac, and `;` on Windows.
 
 ---
 
