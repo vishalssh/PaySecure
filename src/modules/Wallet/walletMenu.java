@@ -47,7 +47,7 @@ public class walletMenu {
                         if (amount <= 0) {
                             System.out.println("Amount must be greater than 0.");
                         } else if (amount > 100000) {
-                            System.out.println("Maximum limit is ₹1,00,000.");
+                            System.out.println("Maximum limit is 1,00,000.");
                         } else {
                             break; // valid amount
                         }
@@ -58,7 +58,7 @@ public class walletMenu {
 
                 case 2:
                     double balance = walletDAO.getBalance(userId);
-                    System.out.printf("Current Balance: ₹%.2f\n", balance);
+                    System.out.printf("Current Balance: %.2f\n", balance);
                     break;
 
                 case 3:
