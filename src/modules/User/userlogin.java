@@ -83,18 +83,18 @@ public class userlogin extends User {
 
     public void addBalance() throws SQLException {
         System.out.println("=========== Add Balance ===========");
-
+        Connection cn = DBConnection.getConnection();
         System.out.print("Enter amount to add: ");
         try {
             double amount = Double.parseDouble(sc.nextLine().trim());
-
+            
             if (amount <= 0) {
                 System.out.println("Amount must be greater than 0!");
                 return;
             }
-
+            
             String query = "UPDATE users set balance = balance + ? where user_id = ?";
-            Connection cn = DBConnection.getConnection();
+            
             PreparedStatement pstmt = cn.prepareStatement(query);
             pstmt.setDouble(1, amount);
             pstmt.setInt(2, userId);
