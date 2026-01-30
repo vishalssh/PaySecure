@@ -27,9 +27,15 @@ A Java-based console application for managing digital wallets, money transfers, 
 3. Monitor all transactions
 4. Remove users from the system
 
+### For Wallet
+1. Add balance to wallet
+2. Check balance
+3. Transfer money using UPI ID or Account Number
+
 ## Technology Stack
 
 - **Language**: Java
 - **Database**: MySQL
 - **JDBC Driver**: MySQL Connector/J
+
 
