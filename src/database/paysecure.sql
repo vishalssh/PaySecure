@@ -24,20 +24,19 @@ CREATE TABLE wallet (
     wallet_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT UNIQUE,
     balance DECIMAL(10, 2) DEFAULT 0.00,
-    FOREIGN KEY (user_id) REFERENCES users (user_id)
+    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
 -- Create transactions table
 CREATE TABLE IF NOT EXISTS transactions (
     transaction_id INT PRIMARY KEY AUTO_INCREMENT,
-    sender_id INT NOT NULL,
-    receiver_id INT NOT NULL,
+    sender_id INT,
+    receiver_id INT,
     amount DECIMAL(15, 2) NOT NULL,
     transaction_type VARCHAR(20) DEFAULT 'TRANSFER',
-    status VARCHAR(20) DEFAULT 'SUCCESS',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (sender_id) REFERENCES users (user_id),
-    FOREIGN KEY (receiver_id) REFERENCES users (user_id)
+    FOREIGN KEY (sender_id) REFERENCES users (user_id) ON DELETE SET NULL,
+    FOREIGN KEY (receiver_id) REFERENCES users (user_id) ON DELETE SET NULL
 );
 
 -- 
