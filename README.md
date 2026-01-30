@@ -4,12 +4,12 @@ A Java-based console application for managing digital wallets, money transfers, 
 
 ## Features
 
-- 👤 **User Management**: Registration with auto-generated UPI IDs and account numbers
-- 💰 **Digital Wallet**: Separate wallet balance management
-- 💸 **Money Transfer**: Transfer funds via UPI ID or Account Number
-- 📊 **Transaction History**: Track all sent and received transactions
-- 🔐 **Admin Panel**: User management and transaction monitoring
-- 🏦 **Balance Management**: Add funds to the main account and wallet
+-  **User Management**: Registration with auto-generated UPI IDs and account numbers
+-  **Digital Wallet**: Separate wallet balance management
+-  **Money Transfer**: Transfer funds via UPI ID or Account Number
+-  **Transaction History**: Track all sent and received transactions
+-  **Admin Panel**: User management and transaction monitoring
+-  **Balance Management**: Add funds to the main account and wallet
 
 ## Documentation
 
@@ -35,5 +35,6 @@ A Java-based console application for managing digital wallets, money transfers, 
 2. View all users and their balances
 3. Monitor all transactions
 4. Remove users from the system
+
 
 
