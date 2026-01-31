@@ -15,7 +15,8 @@ public class walletMenu {
             System.out.println("\n----- WALLET MODULE -----");
             System.out.println("1. Add Money");
             System.out.println("2. Check Balance");
-            System.out.println("3. Exit Wallet");
+            System.out.println("3. Transfer Money");
+            System.out.println("4. Exit Wallet");
             System.out.print("Enter choice: ");
 
             // Menu validation
@@ -62,6 +63,10 @@ public class walletMenu {
                     break;
 
                 case 3:
+                    System.out.println("Exiting wallet...");
+                    return;
+                
+                case 4:
                     System.out.println("Exiting wallet...");
                     return;
 
