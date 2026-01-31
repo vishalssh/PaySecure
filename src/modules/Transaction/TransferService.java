@@ -108,7 +108,6 @@ public class TransferService {
             pstmt.setDouble(3, amount);
             pstmt.executeUpdate();
         }
-
         return true;
     }
 
