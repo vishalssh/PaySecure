@@ -37,7 +37,7 @@ public class Admin {
     public void viewUsers() throws SQLException {
         System.out.println("=========== All Users ===========");
 
-        String query = "select user_id, full_name, role, balance from users where role = 'USER' order by user_id";
+        String query = "select user_id, username,full_name, role from users where role = 'USER' order by user_id";
         Connection cn = DBConnection.getConnection();
         PreparedStatement pstmt = cn.prepareStatement(query);
         ResultSet rs = pstmt.executeQuery();
@@ -45,9 +45,9 @@ public class Admin {
         while (rs.next()) {
             System.out.println("-------------------------------------------");
             System.out.println("User ID: " + rs.getInt("user_id"));
+            System.out.println("Username: " + rs.getString("username"));
             System.out.println("Name: " + rs.getString("full_name"));
             System.out.println("Role: " + rs.getString("role"));
-            System.out.println("Balance: " + rs.getString("balance"));
         }
     }
 
