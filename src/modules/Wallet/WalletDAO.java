@@ -144,7 +144,7 @@ public class WalletDAO {
         return -1;
     }
 
-    public void transferWalletToUser(int senderId, String receiverIdentifier, double amount) {
+    public void transferWalletToUser(int senderId, String recId, double amount) {
         if (amount <= 0) {
             System.out.println("Amount must be greater than 0.");
             return;
@@ -157,7 +157,7 @@ public class WalletDAO {
 
             ensureWallet(con, senderId);
 
-            int receiverId = findUserId(con, receiverIdentifier);
+            int receiverId = findUserId(con, recId);
             if (receiverId == -1) {
                 System.out.println("Receiver not found.");
                 con.rollback();
