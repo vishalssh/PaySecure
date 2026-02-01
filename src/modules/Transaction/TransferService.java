@@ -19,7 +19,7 @@ public class TransferService {
 
         int receiverId = findUser(RecUser);
 
-        System.out.print("Enter amount to transfer: ");
+        System.out.print("Enter amount: ");
         double amount;
         try {
             amount = Double.parseDouble(sc.next().trim());
