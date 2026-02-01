@@ -148,8 +148,9 @@ public class paySecure {
             System.out.println("===========================================");
             System.out.println("1. View Users");
             System.out.println("2. Transaction History");
-            System.out.println("3. Remove User");
-            System.out.println("4. Logout");
+            System.out.println("3. View User History");
+            System.out.println("4. Remove User");
+            System.out.println("5. Logout");
             System.out.print("Choose an option: ");
 
             int choice = 0;
@@ -168,9 +169,12 @@ public class paySecure {
                     loggedInAdmin.viewAllTransactions();
                     break;
                 case 3:
-                    loggedInAdmin.removeUser();
+                    loggedInAdmin.viewUserHistory();
                     break;
                 case 4:
+                    loggedInAdmin.removeUser();
+                    break;
+                case 5:
                     System.out.println("Admin logged out successfully!");
                     return;
                 default:
