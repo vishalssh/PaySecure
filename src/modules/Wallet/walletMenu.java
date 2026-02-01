@@ -12,7 +12,7 @@ public class walletMenu {
         walletDAO.createWallet(userId);
 
         while (true) {
-            System.out.println("\n----- WALLET MODULE -----");
+            System.out.println("======== WALLET MENU ========");
             System.out.println("1. Add Money");
             System.out.println("2. Check Balance");
             System.out.println("3. Transfer Money");

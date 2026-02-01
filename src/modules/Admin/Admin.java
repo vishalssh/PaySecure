@@ -82,7 +82,7 @@ public class Admin {
     }
 
     public void removeUser() throws SQLException {
-        System.out.println("=========== Remove User ==============");
+        System.out.println("============= Remove User ==============");
         System.out.print("Enter Username: ");
         String username = sc.next().trim();
 
@@ -129,10 +129,9 @@ public class Admin {
             return;
         }
 
-        System.out.println("\n=========== Transaction History for " + username + " ===========");
+        System.out.println("=========== Transaction History  ===========");
 
-        String query = "SELECT t.transaction_id, t.sender_id, t.receiver_id, t.amount, t.transaction_type, t.created_at, "
-                +
+        String query = "SELECT t.transaction_id, t.sender_id, t.receiver_id, t.amount, t.transaction_type, t.created_at, " +
                 "sender.username AS sender_name, receiver.username AS receiver_name " +
                 "FROM transactions t " +
                 "LEFT JOIN users sender ON t.sender_id = sender.user_id " +

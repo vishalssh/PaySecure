@@ -124,5 +124,4 @@ public class User {
         System.out.println("Account Number: " + accountNumber);
         System.out.println("Role: " + role);
     }
-
 }
