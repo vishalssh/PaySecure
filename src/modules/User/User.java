@@ -21,7 +21,11 @@ public class User {
     Scanner sc = new Scanner(System.in);
 
     private boolean isValidEmail(String email) {
-        return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+        return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.com$");
+    }
+
+    private boolean isValidUsername(String username) {
+        return username.matches("^[A-Za-z0-9_]{4,20}$");
     }
 
     private boolean isValidMobile(String mobile) {
@@ -49,9 +53,9 @@ public class User {
         System.out.println("=========== User Registration ===========");
 
         do {
-            System.out.print("Enter Username (min 4 chars): ");
+            System.out.print("Enter Username: ");
             username = sc.nextLine().trim();
-        } while (username.length() < 4);
+        } while (!isValidUsername(username));
 
         do {
             System.out.print("Enter Password (min 6 chars): ");
