@@ -86,15 +86,19 @@ public class userlogin extends User {
         Connection cn = DBConnection.getConnection();
         System.out.print("Enter amount to add: ");
         try {
-            double amount = Double.parseDouble(sc.nextLine().trim());
-            
+            String input = sc.nextLine().trim();
+            if (input.isEmpty()) {
+                input = sc.nextLine().trim();
+            }
+            double amount = Double.parseDouble(input);
+
             if (amount <= 0) {
                 System.out.println("Amount must be greater than 0!");
                 return;
             }
-            
+
             String query = "UPDATE users set balance = balance + ? where user_id = ?";
-            
+
             PreparedStatement pstmt = cn.prepareStatement(query);
             pstmt.setDouble(1, amount);
             pstmt.setInt(2, userId);
