@@ -63,12 +63,12 @@ public class walletMenu {
                     break;
 
                 case 3:
-                    System.out.print("Enter receiver UPI ID or Account Number: ");
+                    System.out.print("Enter user UPI ID or Account Number: ");
                     String receiverIdentifier = sc.next().trim();
 
                     double transferAmount = 0;
                     while (true) {
-                        System.out.print("Enter amount to transfer: ");
+                        System.out.print("Enter amount: ");
 
                         if (!sc.hasNextDouble()) {
                             System.out.println("Invalid input! Enter numeric amount.");
