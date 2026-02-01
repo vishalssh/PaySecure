@@ -63,15 +63,39 @@ public class walletMenu {
                     break;
 
                 case 3:
-                    System.out.println("Exiting wallet...");
-                    return;
-                
+                    System.out.print("Enter receiver UPI ID or Account Number: ");
+                    String receiverIdentifier = sc.next().trim();
+
+                    double transferAmount = 0;
+                    while (true) {
+                        System.out.print("Enter amount to transfer: ");
+
+                        if (!sc.hasNextDouble()) {
+                            System.out.println("Invalid input! Enter numeric amount.");
+                            sc.next();
+                            continue;
+                        }
+
+                        transferAmount = sc.nextDouble();
+
+                        if (transferAmount <= 0) {
+                            System.out.println("Amount must be greater than 0.");
+                        } else if (transferAmount > 10000) {
+                            System.out.println("Maximum limit is 10000.");
+                        } else {
+                            break;
+                        }
+                    }
+
+                    walletDAO.transferWalletToUser(userId, receiverIdentifier, transferAmount);
+                    break;
+
                 case 4:
                     System.out.println("Exiting wallet...");
                     return;
 
                 default:
-                    System.out.println("Invalid choice! Please select 1–3.");
+                    System.out.println("Invalid choice! Please select 1–4.");
             }
         }
     }
