@@ -117,4 +117,64 @@ public class Admin {
         }
         return -1;
     }
+
+    public void viewUserHistory() throws SQLException {
+        System.out.println("=========== View User Transaction History ===========");
+        System.out.print("Enter Username: ");
+        String username = sc.next().trim();
+
+        int userId = findUser(username);
+        if (userId == -1) {
+            System.out.println("User not found!");
+            return;
+        }
+
+        System.out.println("\n=========== Transaction History for " + username + " ===========");
+
+        String query = "SELECT t.transaction_id, t.sender_id, t.receiver_id, t.amount, t.transaction_type, t.created_at, "
+                +
+                "sender.username AS sender_name, receiver.username AS receiver_name " +
+                "FROM transactions t " +
+                "LEFT JOIN users sender ON t.sender_id = sender.user_id " +
+                "LEFT JOIN users receiver ON t.receiver_id = receiver.user_id " +
+                "WHERE t.sender_id = ? OR t.receiver_id = ? " +
+                "ORDER BY t.created_at DESC LIMIT 20";
+
+        Connection cn = DBConnection.getConnection();
+        PreparedStatement pstmt = cn.prepareStatement(query);
+        pstmt.setInt(1, userId);
+        pstmt.setInt(2, userId);
+
+        ResultSet rs = pstmt.executeQuery();
+
+        boolean hasTransactions = false;
+        while (rs.next()) {
+            hasTransactions = true;
+            int transactionId = rs.getInt("transaction_id");
+            int senderId = rs.getInt("sender_id");
+            int receiverId = rs.getInt("receiver_id");
+            double amount = rs.getDouble("amount");
+            String type = rs.getString("transaction_type");
+            String createdAt = rs.getString("created_at");
+            String senderName = rs.getString("sender_name");
+            String receiverName = rs.getString("receiver_name");
+
+            System.out.println("-------------------------------------------");
+            System.out.println("Transaction ID: " + transactionId);
+            System.out.println("Date: " + createdAt);
+            System.out.println("Type: " + type);
+
+            if (senderId == userId) {
+                System.out.println("To: " + (receiverName != null ? receiverName : "Unknown"));
+                System.out.println("Amount: " + amount + " (Sent)");
+            } else {
+                System.out.println("From: " + (senderName != null ? senderName : "Unknown"));
+                System.out.println("Amount: " + amount + " (Received)");
+            }
+        }
+
+        if (!hasTransactions) {
+            System.out.println("No transactions found for this user.");
+        }
+    }
 }
